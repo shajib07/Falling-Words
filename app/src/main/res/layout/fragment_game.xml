@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="gameFragment"
+            type="com.atahar.fallingwords.view.GameFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.atahar.fallingwords.viewmodel.WordViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_orange_light"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="15dp">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/correct_btn"
+            app:layout_constraintStart_toEndOf="@id/wrong_btn"
+            app:layout_constraintTop_toBottomOf="@id/input_text">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/translate_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/falling_word_bg"
+                android:padding="20dp"
+                android:text="@{viewModel.translateText}"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                tools:text="word"
+                android:textSize="24sp" />
+
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/input_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.inputText}"
+            tools:text="ttttttt"
+            android:textSize="28sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{String.valueOf(viewModel.timerCount)}"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/missing_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:text="@{String.valueOf(viewModel.missingAns)}"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_orange_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="7" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/wrong_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:paddingHorizontal="10dp"
+            android:text="@{String.valueOf(viewModel.wrongAns)}"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintEnd_toStartOf="@id/missing_text"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/correct_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:text="@{String.valueOf(viewModel.correctAns)}"
+            android:textSize="20sp"
+            android:textColor="@android:color/holo_green_dark"
+            app:layout_constraintEnd_toStartOf="@id/wrong_text"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="31" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/wrong_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{() -> viewModel.onWrongAnsClicked()}"
+            android:padding="0dp"
+            app:icon="@drawable/ic_close"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Word.Button.Circle" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/correct_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{() -> viewModel.onCorrectAnsClicked()}"
+            android:padding="0dp"
+            app:icon="@drawable/ic_done"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Word.Button.Circle" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

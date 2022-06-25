@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="scoreFragment"
+            type="com.atahar.fallingwords.view.ScoreFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.atahar.fallingwords.viewmodel.WordViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp"
+        android:background="@android:color/holo_orange_light">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/correct_ans_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@{@string/correct_ans_text(viewModel.correctAns)}"
+            android:textColor="@android:color/holo_green_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="score " />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/wrong_ans_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@{@string/wrong_ans_text(viewModel.wrongAns)}"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/correct_ans_text"
+            tools:text="score " />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/missing_ans_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@{@string/missing_ans_text(viewModel.missingAns)}"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/wrong_ans_text"
+            tools:text="score " />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/wrong_btn"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:onClick="@{() -> scoreFragment.openGameFragment()}"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/restart"
+            android:layout_marginTop="30dp"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/missing_ans_text" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

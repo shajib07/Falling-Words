@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Falling Words</string>
+    <string name="correct_ans_text">%s Correct Answer</string>
+    <string name="wrong_ans_text">%s Wrong Answer</string>
+    <string name="missing_ans_text">%s Missing Answer</string>
+    <string name="play">Play</string>
+    <string name="restart">Restart</string>
+
+</resources>
