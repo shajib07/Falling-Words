@@ -21,6 +21,7 @@ import com.atahar.fallingwords.R
 import com.atahar.fallingwords.databinding.FragmentGameBinding
 import com.atahar.fallingwords.viewmodel.WordViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.abs
 import kotlin.math.ceil
 
 
@@ -103,7 +104,7 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun setupFallingText() {
+    private fun readContainerSize() {
         val container = fallingText.parent as ViewGroup
 
         if (container.width < container.height) {
@@ -114,6 +115,10 @@ class GameFragment : Fragment() {
             containerH = container.width
         }
 
+        readFallingTextSize()
+    }
+
+    private fun readFallingTextSize() {
         wordW = fallingText.width
         wordH = fallingText.height
 
@@ -123,14 +128,17 @@ class GameFragment : Fragment() {
         )
     }
 
+    // This method manages the X-pos of the falling text
     private fun updateFallingTextXPos() {
-        // Position the view at a random place between the left and right edges of the game screen
-        var width = Math.random().toFloat() * containerW
-
-        if (width + wordW > containerW) {
-            width -= ((width + wordW) - containerW)
+        readFallingTextSize()
+        var startPos = 0
+        val remain = abs(containerW - wordW)
+        startPos = if (wordW > containerW/2) {
+            remain / 4
+        } else {
+            (remain * 3) / 4
         }
-        fallingText.translationX = width
+        fallingText.translationX = startPos.toFloat()
     }
 
     // Update the game state variables
@@ -168,7 +176,7 @@ class GameFragment : Fragment() {
     }
 
     private fun gameSetup() {
-        setupFallingText()
+        readContainerSize()
     }
 
     // This method manages the game loop for every new words by updating states and timer
