@@ -40,17 +40,7 @@ class WordViewModel @Inject constructor(
     val isGameFinish: LiveData<Boolean>
         get() = _isGameFinish
 
-    fun updateMissingCount() {
-        if (answerGiven.value != true) {
-            _missingAns.value = _missingAns.value?.plus(1)
-        }
-    }
-
-    fun updateTimerCount(count: Int) {
-        _timerCount.value = count
-    }
-
-    private var currentIndex: Int = 0
+    var currentIndex: Int = 0
     private var isShownCorrectTrans: Boolean = false
 
     private val _inputText = MutableLiveData<String>()
@@ -67,9 +57,10 @@ class WordViewModel @Inject constructor(
         getWords()
     }
 
-    private fun getWords() {
+    fun getWords() {
         viewModelScope.launch {
             val data = getWords.invoke()
+            if (data.isEmpty()) _isGameFinish.value = true
             wordMap = data.associate { it.text_eng to it.text_spa } as HashMap<String, String>
         }
     }
@@ -100,8 +91,6 @@ class WordViewModel @Inject constructor(
     private fun getInputTextByIndex(idx: Int) = wordMap.keys.elementAt(idx)
 
     private fun getPossibleTranslateText(): String {
-        if (wordMap.size == 0)
-            return ""
         isShownCorrectTrans = Random.nextBoolean()
 
         if (wordMap.size == 1) {
@@ -124,8 +113,9 @@ class WordViewModel @Inject constructor(
     }
 
     fun updateParams() {
-        if (currentIndex == wordMap.size-1) {
+        if (currentIndex >= wordMap.size) {
             _isGameFinish.value = true
+            return
         }
 
         _inputText.value = getInputTextByIndex(currentIndex)
@@ -136,6 +126,17 @@ class WordViewModel @Inject constructor(
         _answerGiven.value = false
     }
 
+    fun updateMissingCount() {
+        if (answerGiven.value != true) {
+            _missingAns.value = _missingAns.value?.plus(1)
+        }
+    }
+
+    fun updateTimerCount(count: Int) {
+        _timerCount.value = count
+    }
+
+
     fun resetGameStates() {
         currentIndex = 0
         _timerCount.value = 0
@@ -143,6 +144,7 @@ class WordViewModel @Inject constructor(
         _missingAns.value = 0
         _correctAns.value = 0
         _wrongAns.value = 0
+        _isGameFinish.value = false
     }
 
 }

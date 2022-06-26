@@ -1,15 +1,11 @@
-package com.atahar.fallingwords
+package com.atahar.fallingwords.view
 
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.activityViewModels
 import com.atahar.fallingwords.databinding.ActivityMainBinding
-import com.atahar.fallingwords.viewmodel.WordViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {

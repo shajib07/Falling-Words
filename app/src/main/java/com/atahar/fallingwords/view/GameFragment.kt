@@ -84,6 +84,7 @@ class GameFragment : Fragment() {
         sharedViewModel.isGameFinish.observe(viewLifecycleOwner, Observer { gameFinish ->
             if (gameFinish) {
                 finishGame()
+                openScoreFragment()
             }
         })
 
@@ -139,7 +140,7 @@ class GameFragment : Fragment() {
         fallingWordAnimator = ObjectAnimator.ofFloat(
             fallingText,
             View.TRANSLATION_Y,
-            -(wordH / 2).toFloat(),
+            -wordH.toFloat(),
             containerH + wordH.toFloat()
         )
 
@@ -156,7 +157,8 @@ class GameFragment : Fragment() {
             override fun onAnimationEnd(animation: Animator?) {
                 super.onAnimationEnd(animation)
                 sharedViewModel.updateMissingCount()
-                gameLoop()
+                if (sharedViewModel.isGameFinish.value == false)
+                    gameLoop()
             }
         })
     }
@@ -174,7 +176,10 @@ class GameFragment : Fragment() {
     }
 
     // Cancel the game when user stopped playing or game ends
-    private fun cancelAnimation() = fallingWordAnimator.cancel()
+    private fun cancelAnimation() {
+        if (this@GameFragment::fallingWordAnimator.isInitialized)
+            fallingWordAnimator.cancel()
+    }
 
     private fun cancelTimer() {
         singleLoopTimer?.cancel()
