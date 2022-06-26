@@ -41,7 +41,7 @@ class WordViewModel @Inject constructor(
         get() = _isGameFinish
 
     var currentIndex: Int = 0
-    private var isShownCorrectTrans: Boolean = false
+    var isShownCorrectTrans: Boolean = false
 
     private val _inputText = MutableLiveData<String>()
     val inputText: LiveData<String>
@@ -59,6 +59,7 @@ class WordViewModel @Inject constructor(
 
     fun getWords() {
         viewModelScope.launch {
+            // Fetch words through the domain layer
             val data = getWords.invoke()
             if (data.isEmpty()) _isGameFinish.value = true
             wordMap = data.associate { it.text_eng to it.text_spa } as HashMap<String, String>
@@ -77,6 +78,8 @@ class WordViewModel @Inject constructor(
         if (_answerGiven.value == true)
             return
 
+        //If the given translation is true but the user considers the translation as false,
+        //then count for wrong answer increments by one. Vice-versa
         if (isShownCorrectTrans != isCorrect) {
             _wrongAns.value = _wrongAns.value?.plus(1)
         } else {
@@ -90,7 +93,9 @@ class WordViewModel @Inject constructor(
 
     private fun getInputTextByIndex(idx: Int) = wordMap.keys.elementAt(idx)
 
+    //This method will generate a correct / incorrect translation for the current input Word
     private fun getPossibleTranslateText(): String {
+        //By randomizing, it decides whether to show correct or incorrect translation
         isShownCorrectTrans = Random.nextBoolean()
 
         if (wordMap.size == 1) {
@@ -100,6 +105,7 @@ class WordViewModel @Inject constructor(
         return if (isShownCorrectTrans) {
             wordMap.getValue(getInputTextByIndex(currentIndex))
         } else {
+            //This code block will pick a wrong translation for the input word
             var arbitraryIdx = abs((wordMap.size - 1) - currentIndex)
             if (arbitraryIdx == currentIndex) {
 

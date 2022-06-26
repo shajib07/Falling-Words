@@ -35,7 +35,7 @@ class WordViewModelTest {
     }
 
     @Test
-    fun `test game states after reset`() = runBlocking {
+    fun `test game states after reset`() {
         wordViewModel.resetGameStates()
         Assert.assertEquals(wordViewModel.currentIndex, 0)
         Assert.assertEquals(wordViewModel.missingAns.value, 0)
@@ -44,9 +44,35 @@ class WordViewModelTest {
     }
 
     @Test
-    fun `test get words size zero`() = runBlocking {
+    fun `test fetch words size zero`() = runBlocking {
         val size = wordViewModel.wordMap.size
         Assert.assertEquals(size, 0)
+    }
+
+    @Test
+    fun `test correct answer count`() {
+        wordViewModel.isShownCorrectTrans = true
+        wordViewModel.onCorrectAnsClicked()
+        Assert.assertEquals(wordViewModel.correctAns.value, 1)
+    }
+
+    @Test
+    fun `test wrong answer count`() {
+        wordViewModel.isShownCorrectTrans = true
+        wordViewModel.onWrongAnsClicked()
+        Assert.assertEquals(wordViewModel.wrongAns.value, 1)
+    }
+
+    @Test
+    fun `test missing answer count`() {
+        wordViewModel.updateMissingCount()
+        Assert.assertEquals(wordViewModel.missingAns.value, 1)
+    }
+
+    @Test
+    fun `test timer count`() {
+        wordViewModel.updateTimerCount(5)
+        Assert.assertEquals(wordViewModel.timerCount.value, 5)
     }
 
 }

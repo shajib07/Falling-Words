@@ -75,12 +75,15 @@ class GameFragment : Fragment() {
             })
 
 
+        //When user gives answer then the current animation stopped and another
+        //animation with the next word will be started
         sharedViewModel.answerGiven.observe(viewLifecycleOwner, Observer { isAnswerGiven ->
             if (isAnswerGiven) {
                 fallingWordAnimator.end()
             }
         })
 
+        //If all the words displayed to the user, the game ends
         sharedViewModel.isGameFinish.observe(viewLifecycleOwner, Observer { gameFinish ->
             if (gameFinish) {
                 finishGame()
@@ -136,6 +139,7 @@ class GameFragment : Fragment() {
         updateFallingTextXPos()
     }
 
+    // Set up the animation for the falling text
     private fun setupAnimation() {
         fallingWordAnimator = ObjectAnimator.ofFloat(
             fallingText,
@@ -175,7 +179,6 @@ class GameFragment : Fragment() {
         fallingWordAnimator.start()
     }
 
-    // Cancel the game when user stopped playing or game ends
     private fun cancelAnimation() {
         if (this@GameFragment::fallingWordAnimator.isInitialized)
             fallingWordAnimator.cancel()
@@ -186,6 +189,7 @@ class GameFragment : Fragment() {
         singleLoopTimer = null
     }
 
+    // Cancel the game when user stopped playing or game ends
     private fun finishGame() {
         cancelAnimation()
         cancelTimer()
